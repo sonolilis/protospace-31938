@@ -10,7 +10,7 @@ class PrototypesController < ApplicationController
   end
 
   def create
-    @prototype = Prototype.create(prototype_params)
+    @prototype = Prototype.new(prototype_params)
     if @prototype.save
       redirect_to root_path
     else
@@ -25,6 +25,10 @@ class PrototypesController < ApplicationController
   end
 
   def edit
+    @prototype = Prototype.find(params[:id])
+    unless @prototype.user_id == current_user.id
+      redirect_to action: :index
+    end
   end
 
   def update
